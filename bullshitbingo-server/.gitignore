@@ -1,0 +1,4 @@
+*VCAP*.json
+*.class
+**/bin
+target/**
