@@ -21,7 +21,6 @@ public class BullshitBingoConfiguration {
 	private static final String VCAP_APP_CONFIG_ENV_KEY = "VCAP_APP_CONFIG";
 	private static final String VCAP_SERVICES_FILENAME = "localhost-bullshitBingoServer_VCAP_Services.json";
 	private static final String VCAP_SERVICES_ENV_KEY = "VCAP_SERVICES";
-	;
 
 	private static JSONObject vcapServices;
 	private static JSONObject vcapAppConfig;
@@ -36,33 +35,20 @@ public class BullshitBingoConfiguration {
 		initialize();
 		return (String) vcapAppConfig.get("recorderUsecaseBeanName");
 	}
-
-	public static String getRecorderDatabaseName() {
-		initialize();
-		return (String) vcapAppConfig.get("recorderDbName");
-	}	
-
-	public static String getAllRecordingViewName() {
-		initialize();
-		return (String) vcapAppConfig.get("recorderDbName.allRecordingView");
-	}	
 	
-	public static String getCloudantUsername() {
-		return (String) extractCloudantCredentials().get("username");
+	public static DataCacheConfig getDataCacheConfig() {
+		DataCacheConfig returnValue = new DataCacheConfig();
+		 returnValue.catalogEndPoint = (String) extractDataCacheCredentials().get("catalogEndPoint");
+		 returnValue.gridName = (String) extractDataCacheCredentials().get("gridName");
+		 returnValue.password = (String) extractDataCacheCredentials().get("password");
+		 returnValue.username = (String) extractDataCacheCredentials().get("username");
+		return returnValue;
 	}
 
-	public static String getCloudantPassword() {
-		return (String) extractCloudantCredentials().get("password");
-	}
-
-	public static String getCloudantUrl() {
-		return (String) extractCloudantCredentials().get("url");
-	}
-
-	private static JSONObject extractCloudantCredentials() {
+	private static JSONObject extractDataCacheCredentials() {
 		initialize();
 		JSONArray cloudantArray = (JSONArray) vcapServices
-				.get("cloudantNoSQLDB");
+				.get("DataCache-1.0");
 		JSONObject firstEntry = (JSONObject) cloudantArray.get(0);
 		JSONObject credentitals = (JSONObject) firstEntry.get("credentials");
 		return credentitals;
