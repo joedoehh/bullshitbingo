@@ -1,0 +1,16 @@
+<div ng-controller="RecordingsCtrl as recordingsController">
+	<div class="jumbotron">
+  		<h4>Recording Database</h4>
+		<input type="text" ng-model="recordingsController.newRecording">
+		<a href class="btn btn-default btn-sm" ng-click="recordingsController.addRecording()">Add</a>
+		<a href class="btn btn-default btn-sm" ng-click="recordingsController.deleteAll()">Delete All</a>
+	</div> 
+	<table class="table">
+  		<tr ng-repeat="recording in recordingsController.recordings">
+    		<td>{{recording.timestampOfRecording | date : 'dd.MM.yyyy HH:mm:ss'}}</td>
+    		<td>{{recording.wordsAsString}}</td>
+    		<td><a href class="btn btn-default btn-sm" ng-click="recordingsController.deleteRecording(recording)">Delete</a></td>
+  		</tr>
+  		<div class="alert alert-danger" role="alert" ng-show="recordingsController.serverError">Could not connect to server, check it is running and available</div>
+	</table>
+</div>

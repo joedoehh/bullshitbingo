@@ -1,0 +1,37 @@
+<html ng-app="bullshitBingoApp">
+
+	<head>
+	  	<meta charset="utf8" />
+	  	<title>BullshitBingo Client</title>
+	  	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	</head>
+
+	<body>
+
+        <div class="navbar navbar-fixed-top navbar-default">
+            <div class="navbar-header pull-left">
+                <a class="logo navbar-brand" href="#/">
+                    <span class="label label-primary">BullshitBingo</span> 
+                </a>
+            </div>
+            <div class="btn-group pull-right">
+                <a class="btn btn-primary" href="#/">
+                    <span class="glyphicon glyphicon-user"></span>
+                </a>
+                <a class="btn btn-primary" href="#/recorder">
+                    <span class="glyphicon glyphicon-bullhorn"></span>
+                </a>
+            </div>
+        </div>
+
+
+		<div class="container">
+	    	<div ng-view></div>
+	  	</div>
+	  
+	  	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
+	  	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
+	  	<script src="app.js"></script>
+	</body>
+
+</html>
