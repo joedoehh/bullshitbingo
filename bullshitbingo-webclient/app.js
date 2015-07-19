@@ -8,7 +8,33 @@ angular.module('bullshitBingoApp', ['ngRoute'])
       .when('/recorder', { templateUrl: 'recorder.html' })
       .otherwise({ redirectTo: '/'});
   })
-     
+    
+  
+  .controller('GameCtrl', function($http){
+	  
+	  var GAME_REST_SERVICE_BASE_URL = 'http://localhost:9080/bullshitbingo-server/bsb/game';	  
+	  var gameController = this;
+	  	  
+	  gameController.gameState = [];
+	  gameController.serverError = 1;
+	  
+	  gameController.reload = function (recording) {	    
+	    	$http.get(GAME_REST_SERVICE_BASE_URL)
+	    	.success(
+	    			function(data) {
+	    				gameController.gameState = data;
+	    				gameController.serverError = 0;
+	    			})
+	    	.error(
+	    			function(data, status) {
+	    				gameController.gameState = [];
+	    				gameController.serverError = 1;
+	    			})};
+	    
+	  gameController.reload();			
+	  	 
+  })  
+  
   .controller('RecordingsCtrl', function($http){
 	  
 	  var RECORDINGS_REST_SERVICE_BASE_URL = 'http://localhost:9080/bullshitbingo-server/bsb/recording';	  

@@ -1,150 +1,44 @@
-<div class="jumbotron">
-  <h3>Running Game</h3>
-  <p>the <span class="label label-warning">group</span> is in good <span class="label label-warning">shape</span> all kpis have been met</p>
-  <p>
-  <input type="text" placeholder="User">
-  <input type="text" placeholder="Buzzwords">
-  <a class="btn btn-primary btn-default" role="button">Join Game</a>
-  <a class="btn btn-primary btn-default" role="button">Start Game</a>
-  <a class="btn btn-primary btn-default" role="button">Finish Game</a>
-  <a class="btn btn-primary btn-default" role="button">Reset Game</a>
-  </p>
- </div> 
+<div ng-controller="GameCtrl as gameController">
 
-<div class="row">
-	<div class="col-sm-4 col-md-4">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>
-					JoeDoe 
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-				</h4>
-				<span class="label label-info">boldness</span> 
-				<span class="label label-warning">group</span>
-				<span class="label label-warning">kpi</span>
-				<span class="label label-warning">shape</span>
-				<span class="label label-info">values</span>
+	<div class="jumbotron">
+	  <h3>Game State: {{gameController.gameState.state}}</h3>
+	  <p>the <span class="label label-warning">group</span> is in good <span class="label label-warning">shape</span> all kpis have been met</p>
+	  <p>
+	  <input type="text" placeholder="User">
+	  <input type="text" placeholder="Buzzwords">
+	  <a class="btn btn-primary btn-default" role="button">Join Game</a>
+	  <a class="btn btn-primary btn-default" role="button">Start Game</a>
+	  <a class="btn btn-primary btn-default" role="button">Finish Game</a>
+	  <a class="btn btn-primary btn-default" role="button">Reset Game</a>
+	  </p>
+	 </div> 
+	
+	<div class="row">
+	  	<div ng-repeat="game in gameController.gameState.games">
+	  		<div class="col-sm-4 col-md-4">
+				<div class="thumbnail">
+					<div class="caption">						  	
+						<h4>
+							{{game.player}}
+							<div ng-repeat="i in game.hits">
+								<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+							</div>
+							<div ng-repeat="i in game.misses">
+								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+							</div>
+						</h4>
+						<div ng-repeat="word in game.words">
+							<span class="label label-info">{{word.word}}</span>
+							<!-- 
+							<span class="label label-warning">{{word.word}}</span>
+							 -->						
+						</div>
+						
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-	<div class="col-sm-4 col-md-4">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>
-					Guenther
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-				</h4>
-				<span class="label label-info">boldness</span> 
-				<span class="label label-warning">group</span>
-				<span class="label label-warning">kpi</span>
-				<span class="label label-warning">shape</span>
-				<span class="label label-info">values</span>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4 col-md-4">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>
-					Otto 
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-				</h4>
-				<span class="label label-info">boldness</span> 
-				<span class="label label-warning">group</span>
-				<span class="label label-warning">kpi</span>
-				<span class="label label-warning">shape</span>
-				<span class="label label-info">values</span>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4 col-md-4">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>
-					Fritz 
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-				</h4>
-				<span class="label label-info">boldness</span> 
-				<span class="label label-warning">group</span>
-				<span class="label label-warning">kpi</span>
-				<span class="label label-warning">shape</span>
-				<span class="label label-info">values</span>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4 col-md-4">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>
-					Heinz 
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-				</h4>
-				<span class="label label-info">boldness</span> 
-				<span class="label label-warning">group</span>
-				<span class="label label-warning">kpi</span>
-				<span class="label label-warning">shape</span>
-				<span class="label label-info">values</span>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4 col-md-4">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>
-					Peter 
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-				</h4>
-				<span class="label label-info">boldness</span> 
-				<span class="label label-warning">group</span>
-				<span class="label label-warning">kpi</span>
-				<span class="label label-warning">shape</span>
-				<span class="label label-info">values</span>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4 col-md-4">
-		<div class="thumbnail">
-			<div class="caption">
-				<h4>
-					Uwe 
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-					<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-				</h4>
-				<span class="label label-info">boldness</span> 
-				<span class="label label-warning">group</span>
-				<span class="label label-warning">kpi</span>
-				<span class="label label-warning">shape</span>
-				<span class="label label-info">values</span>
-			</div>
-		</div>
-	</div>
+	  	</div>	
+  	</div>	
+
 </div>
-
 

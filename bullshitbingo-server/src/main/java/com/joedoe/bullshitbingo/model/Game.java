@@ -24,6 +24,10 @@ public class Game {
 	@NotNull
 	@Size(min = 5, max = 5)
 	private List<MarkedWord> words;
+	
+	private int[] hits;
+	
+	private int[] misses;
 
 	public Game(@NotNull String player,
 			@NotNull @Size(min = 5, max = 5) List<String> words) {
@@ -41,8 +45,8 @@ public class Game {
 		Preconditions.checkArgument(words.size() == 5);
 		Preconditions.checkArgument(checkWordsUnique(words), "words need to be unique "+words);
 		this.player = player;
-		this.rating = rating;
-		this.words = words;
+		setRating(rating);
+		this.words = words;		
 	}
 
 	public String getPlayer() {
@@ -52,12 +56,26 @@ public class Game {
 	public int getRating() {
 		return rating;
 	}
-
+	
 	public void increaseRating() {
 		if (getRating() < 5)
-			rating++;
+			setRating(rating+1);
+	}		
+
+	private void setRating(int value) {
+		Preconditions.checkArgument(value <= 5 && value >= 0, "rating is in [0,5]");
+		rating = value;
+		hits = new int[rating];
+		fillRatingRange(hits);
+		misses = new int[5-rating];
+		fillRatingRange(misses);		
 	}
 
+	private void fillRatingRange(int[] array) {
+		for (int i=0; i < array.length; i++)
+			array[i] = i;
+	}
+	
 	public boolean isWon() {
 		return getRating() == 5;
 	}
@@ -69,6 +87,14 @@ public class Game {
 	private boolean checkWordsUnique(List<MarkedWord> words) {
 		Set<MarkedWord> asCollection = new HashSet<MarkedWord>(words);
 		return asCollection.size() == words.size();
+	}
+	
+	public int[] getHits() {
+		return hits;
+	}
+
+	public int[] getMisses() {
+		return misses;
 	}
 
 	@Override

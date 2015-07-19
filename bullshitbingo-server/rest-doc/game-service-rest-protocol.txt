@@ -1,0 +1,47 @@
+get game status
+GET http://localhost:9080/bullshitbingo-server/bsb/game
+
+{
+   "state": "INITIALIZED",
+   "lastMatchedRecording": [],
+   "games": [
+      {
+         "words": [
+            {
+               "marked": false,
+               "word": "x1"
+            },
+            {
+               "marked": false,
+               "word": "x2"
+            },
+            {
+               "marked": false,
+               "word": "x3"
+            },
+            {
+               "marked": false,
+               "word": "x4"
+            },
+            {
+               "marked": false,
+               "word": "x5"
+            }
+         ],
+         "player": "joedoe",
+         "won": false,
+         "rating": 0,
+         "hits": [],
+         "misses": [
+            0,
+            1,
+            2,
+            3,
+            4
+         ]
+      }
+   ]
+}
+
+join game
+PUT http://localhost:9080/bullshitbingo-server/bsb/game?player=joedoe&word=x1&word=x2&word=x3&word=x4&word=x5

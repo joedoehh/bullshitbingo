@@ -1,0 +1,40 @@
+get recordings
+GET http://localhost:9080/bullshitbingo-server/bsb/recording
+
+[
+   {
+      "id": 107,
+      "timestampOfRecording": 1437328013588,
+      "words": [
+         "und",
+         "wanderte",
+         "ich",
+         "schon",
+         "durch",
+         "das",
+         "finstere",
+         "tal",
+         "so",
+         "fürche",
+         "ich",
+         "kein",
+         "unglück",
+         "denn"
+      ],
+      "wordsAsString": "und wanderte ich schon durch das finstere tal so fürche ich kein unglück denn"
+   },
+   {
+      "id": 151,
+      "timestampOfRecording": 1437342252482,
+      "words": [
+         "alles",
+         "hat",
+         "ein",
+         "ende"
+      ],
+      "wordsAsString": "alles hat ein ende"
+   }
+]
+
+create recoding
+PUT http://localhost:9080/bullshitbingo-server/bsb/recording?word=alles&word=hat&word=ein&word=ende
