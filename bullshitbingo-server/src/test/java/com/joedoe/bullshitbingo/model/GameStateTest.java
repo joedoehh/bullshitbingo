@@ -23,8 +23,8 @@ public class GameStateTest {
 		List<MarkedWord> markedWords = new ArrayList<MarkedWord>();
 		List<Game> games = new ArrayList<Game>();
 		gameState = new GameState(StateEnum.RUNNING, markedWords, games);
-	}
-
+	}	
+	
 	@Test
 	public void testMatchingWord() {
 		addGame(gameState, "player-1", new String[] { "aaa", "bbb", "x1", "x2",
@@ -43,6 +43,16 @@ public class GameStateTest {
 		assertThat(getGame(gameState, "player-3").getRating(), equalTo(0));
 	}
 
+	@Test
+	public void testMatchingWordCapital() {
+		addGame(gameState, "player-1", new String[] { "aAa", "Bbb", "x1", "x2",
+				"x3" });
+		List<RecordingBo> recordings = createRecordings(new String[] { "aaa"
+				 }, new String[] { "bbb" });
+		gameState.processRecordings(recordings);
+		assertThat(getGame(gameState, "player-1").getRating(), equalTo(2));
+	}	
+	
 	@Test
 	public void testFindWinner() {
 		addGame(gameState, "player-1", new String[] { "a", "b", "c", "d",

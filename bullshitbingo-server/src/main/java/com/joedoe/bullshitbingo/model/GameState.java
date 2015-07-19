@@ -92,7 +92,7 @@ public class GameState {
 		for (Game game : gamesToFilter)
 			for (MarkedWord markedWord : game.getWords())
 				if (!markedWord.isMarked()
-						&& markedWord.getWord().equals(wordToMatch)) {
+						&& markedWord.getWord().equalsIgnoreCase(wordToMatch)) {
 					// mark word + increase hit count
 					markedWord.setMarked(true);
 					gamesWithAMatch.add(game);
