@@ -22,6 +22,8 @@ import com.joedoe.bullshitbingo.persistence.api.RecorderDao;
 @Startup
 @Singleton
 public class GameEjb {
+	
+	// TODO lifecycle of mgame and reaction on timer (starting / stopping) 
 
 	private static final int TIMEOUT_REPEAT_GAME = 5*1000;
 
