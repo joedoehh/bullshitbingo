@@ -14,9 +14,9 @@ public interface RecorderUseCase {
 	// ordered by timestamp
 	@NotNull List<RecordingBo> getRecordings();
 
-	@NotNull RecordingBo getRecording(@NotNull String id);
+	@NotNull RecordingBo getRecording(@NotNull Long id);
 	
-	void deleteRecording(@NotNull String id);
+	void deleteRecording(@NotNull Long id);
 	
 	void deleteAllRecordings();
 	

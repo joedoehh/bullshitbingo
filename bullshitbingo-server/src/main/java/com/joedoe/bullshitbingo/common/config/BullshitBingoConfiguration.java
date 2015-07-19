@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -36,24 +35,6 @@ public class BullshitBingoConfiguration {
 		return (String) vcapAppConfig.get("recorderUsecaseBeanName");
 	}
 	
-	public static DataCacheConfig getDataCacheConfig() {
-		DataCacheConfig returnValue = new DataCacheConfig();
-		 returnValue.catalogEndPoint = (String) extractDataCacheCredentials().get("catalogEndPoint");
-		 returnValue.gridName = (String) extractDataCacheCredentials().get("gridName");
-		 returnValue.password = (String) extractDataCacheCredentials().get("password");
-		 returnValue.username = (String) extractDataCacheCredentials().get("username");
-		return returnValue;
-	}
-
-	private static JSONObject extractDataCacheCredentials() {
-		initialize();
-		JSONArray cloudantArray = (JSONArray) vcapServices
-				.get("DataCache-1.0");
-		JSONObject firstEntry = (JSONObject) cloudantArray.get(0);
-		JSONObject credentitals = (JSONObject) firstEntry.get("credentials");
-		return credentitals;
-	}
-
 	private static void initialize() {
 		if (initialized)
 			return;

@@ -10,16 +10,16 @@ import com.joedoe.bullshitbingo.model.RecordingBo;
 public interface RecorderDao {
 
 	@NotNull List<RecordingBo> findAll();
+
+	@NotNull List<RecordingBo> findAfterTimestamp(@NotNull Date lastRecordingTimestamp);
 	
-	RecordingBo findById(@NotNull String id);
+	RecordingBo findById(@NotNull Long id);
 	
 	// null return value == error in creating
 	RecordingBo create(@NotNull RecordingBo recordingBo);
 	
 	void deleteAll();
 
-	void delete(@NotNull String id);
-
-	@NotNull List<RecordingBo> findAfterTimestamp(@NotNull Date lastRecordingTimestamp);
+	void delete(@NotNull Long id);
 	
 }

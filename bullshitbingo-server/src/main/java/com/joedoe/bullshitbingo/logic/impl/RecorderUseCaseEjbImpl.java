@@ -26,12 +26,11 @@ public class RecorderUseCaseEjbImpl implements RecorderUseCase {
 	@Override
 	public @NotNull List<RecordingBo> getRecordings() {
 		List<RecordingBo> returnValue = recorderDao.findAll();
-		returnValue.sort(RecordingBo.COMPARATOR_BY_TIMESTAMP_ASC);
 		return returnValue;
 	}
 
 	@Override
-	public @NotNull RecordingBo getRecording(@NotNull String id) {
+	public @NotNull RecordingBo getRecording(@NotNull Long id) {
 		Preconditions.checkNotNull(id);					
 		return recorderDao.findById(id);
 	}
@@ -42,7 +41,7 @@ public class RecorderUseCaseEjbImpl implements RecorderUseCase {
 	}
 
 	@Override
-	public void deleteRecording(@NotNull String id) {
+	public void deleteRecording(@NotNull Long id) {
 		Preconditions.checkNotNull(id);	
 		recorderDao.delete(id);
 	}

@@ -29,7 +29,8 @@ public class RecorderServiceRestImpl implements RecorderService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public RecordingTo createRecording(@NotNull @QueryParam("word") List<String> words) {
+	public RecordingTo createRecording(
+			@NotNull @QueryParam("word") List<String> words) {
 		Preconditions.checkNotNull(words);
 		RecordingBo bo = getRecorderUseCase().createRecording(words);
 		return new RecordingTo(bo);
@@ -39,7 +40,8 @@ public class RecorderServiceRestImpl implements RecorderService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public @NotNull List<RecordingTo> getRecordings() {
-		List<RecordingTo> returnValue = RecordingTo.transferToTo(getRecorderUseCase().getRecordings());
+		List<RecordingTo> returnValue = RecordingTo
+				.transferToTo(getRecorderUseCase().getRecordings());
 		return returnValue;
 	}
 
@@ -48,10 +50,13 @@ public class RecorderServiceRestImpl implements RecorderService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public @NotNull RecordingTo getRecording(
-			@NotNull @PathParam("recordingId") String recordingId) {
+			@NotNull @PathParam("recordingId") Long recordingId) {
 		Preconditions.checkNotNull(recordingId);
 		RecordingBo bo = getRecorderUseCase().getRecording(recordingId);
-		return new RecordingTo(bo);
+		if (null == bo)
+			return null;
+		else
+			return new RecordingTo(bo);
 	}
 
 	@DELETE
@@ -63,26 +68,28 @@ public class RecorderServiceRestImpl implements RecorderService {
 	@DELETE
 	@Path("{recordingId}")
 	@Override
-	public void deleteRecording(@NotNull @PathParam("recordingId") String recordingId) {
+	public void deleteRecording(
+			@NotNull @PathParam("recordingId") Long recordingId) {
 		Preconditions.checkNotNull(recordingId);
-		getRecorderUseCase().deleteRecording(recordingId);		
+		getRecorderUseCase().deleteRecording(recordingId);
 	}
-	
+
 	private RecorderUseCase getRecorderUseCase() {
 		if (null == recorderUsecase) {
-			String beanName = BullshitBingoConfiguration.getRecorderUsecaseBeanName();
+			String beanName = BullshitBingoConfiguration
+					.getRecorderUsecaseBeanName();
 			Preconditions.checkNotNull(beanName);
-			recorderUsecase = (RecorderUseCase) lookupLocalBean(beanName);		
+			recorderUsecase = (RecorderUseCase) lookupLocalBean(beanName);
 			Preconditions.checkNotNull(recorderUsecase);
 		}
-		return recorderUsecase;			
+		return recorderUsecase;
 	}
-	
+
 	private Object lookupLocalBean(String name) {
-	    Object returnValue = null;
+		Object returnValue = null;
 		try {
 			InitialContext context = new InitialContext();
-			returnValue =  context.lookup(name);
+			returnValue = context.lookup(name);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

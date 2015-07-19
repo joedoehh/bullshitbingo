@@ -9,18 +9,15 @@ import javax.validation.constraints.NotNull;
 import com.google.common.base.Preconditions;
 
 public class RecordingTo {
-
 	
-	private String id;
-	private String rev;
+	private long id;
 	private List<String> words;
 	private String wordsAsString;
 	private Date timestampOfRecording;
 
 	public RecordingTo(@NotNull RecordingBo recordingBo) {
 		Preconditions.checkNotNull(recordingBo);
-		this.id = recordingBo.get_id();
-		this.rev = recordingBo.get_rev();
+		this.id = recordingBo.getId();
 		this.words = recordingBo.getWords();
 		this.timestampOfRecording = new Date(recordingBo.getTimestampOfRecording());
 		this.wordsAsString = convertToStringOfWords(this.words);
@@ -34,20 +31,12 @@ public class RecordingTo {
 		return returnValue;
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getRev() {
-		return rev;
-	}
-
-	public void setRev(String rev) {
-		this.rev = rev;
 	}
 
 	public List<String> getWords() {
@@ -86,8 +75,6 @@ public class RecordingTo {
 		final int maxLen = 10;
 		return "RecordingTo [id="
 				+ id
-				+ ", rev="
-				+ rev
 				+ ", words="
 				+ (words != null ? words.subList(0,
 						Math.min(words.size(), maxLen)) : null)

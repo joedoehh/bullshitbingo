@@ -14,10 +14,10 @@ public interface RecorderService {
 	// ordered by timestamp
 	@NotNull List<RecordingTo> getRecordings();
 
-	@NotNull RecordingTo getRecording(@NotNull String recordingId);
+	@NotNull RecordingTo getRecording(@NotNull Long recordingId);
 	
 	void deleteAllRecordings();
 	
-	void deleteRecording(@NotNull String recordingId);
+	void deleteRecording(@NotNull Long recordingId);
 
 }
