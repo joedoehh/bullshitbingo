@@ -24,7 +24,7 @@ import com.joedoe.bullshitbingo.service.api.GameService;
 public class GameServiceRestImpl implements GameService {
 
 	private GameUseCase gameUsecase;
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
@@ -34,46 +34,42 @@ public class GameServiceRestImpl implements GameService {
 
 	@PUT
 	@Override
-	public void setGameState(@QueryParam("newGameState") @NotNull GameState.StateEnum state) {
+	public void setGameState(
+			@QueryParam("newGameState") @NotNull GameState.StateEnum state) {
 		Preconditions.checkNotNull(state);
-		if (GameState.StateEnum.RUNNING == state) {
-			getGameUseCase().startGame();
-		} else if (GameState.StateEnum.FINISHED == state) {
-			getGameUseCase().finishGame();
-		} else if (GameState.StateEnum.INITIALIZED == state) {
-			getGameUseCase().resetGame();
-		} else {
-			throw new IllegalArgumentException("no operation defined to set the game into state " + state);
-		}
+		getGameUseCase().setGameLifcycleState(state);
 	}
-	
+
 	@PUT
 	@Override
-	public void joinGame(@QueryParam("player") @NotNull String player, @QueryParam("word") @NotNull @Size(min = 5, max = 5) List<String> words) {
+	public void joinGame(
+			@QueryParam("player") @NotNull String player,
+			@QueryParam("word") @NotNull @Size(min = 5, max = 5) List<String> words) {
 		Preconditions.checkNotNull(player);
 		Preconditions.checkArgument(words.size() == 5);
 		getGameUseCase().joinGame(new Game(player, words));
-	}	
-	
+	}
+
 	private GameUseCase getGameUseCase() {
 		if (null == gameUsecase) {
-			String beanName = BullshitBingoConfiguration.getGameUsecaseBeanName();
+			String beanName = BullshitBingoConfiguration
+					.getGameUsecaseBeanName();
 			Preconditions.checkNotNull(beanName);
-			gameUsecase = (GameUseCase) lookupLocalBean(beanName);		
+			gameUsecase = (GameUseCase) lookupLocalBean(beanName);
 			Preconditions.checkNotNull(gameUsecase);
 		}
-		return gameUsecase;			
+		return gameUsecase;
 	}
-	
+
 	private Object lookupLocalBean(String name) {
-	    Object returnValue = null;
+		Object returnValue = null;
 		try {
 			InitialContext context = new InitialContext();
-			returnValue =  context.lookup(name);
+			returnValue = context.lookup(name);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		return returnValue;
 	}
-	
+
 }

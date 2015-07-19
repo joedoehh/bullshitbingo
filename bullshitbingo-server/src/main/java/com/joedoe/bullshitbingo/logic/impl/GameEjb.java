@@ -10,11 +10,13 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.validation.constraints.NotNull;
 
+import com.google.common.base.Preconditions;
 import com.joedoe.bullshitbingo.model.Game;
 import com.joedoe.bullshitbingo.model.GameState;
-import com.joedoe.bullshitbingo.model.RecordingBo;
 import com.joedoe.bullshitbingo.model.GameState.StateEnum;
+import com.joedoe.bullshitbingo.model.RecordingBo;
 import com.joedoe.bullshitbingo.persistence.api.RecorderDao;
 
 @Startup
@@ -38,21 +40,24 @@ public class GameEjb {
 		return gameState;
 	}
 	
-	public synchronized void joinGame(Game game) {
-		gameState.addGame(game);		
-	}	
+	public void setGameLifcycleState(@NotNull GameState.StateEnum newState) {
+		Preconditions.checkNotNull(newState);
+		if (GameState.StateEnum.RUNNING == newState) {
+			gameState.setState(StateEnum.RUNNING);	
+		} else if (GameState.StateEnum.FINISHED_STOPPED == newState) {
+			gameState.setState(StateEnum.FINISHED_STOPPED);
+		} else if (GameState.StateEnum.INITIALIZED == newState) {
+			gameState = new GameState();
+		} else {
+			throw new IllegalArgumentException("no operation defined to set the game into state " + newState);
+		}		
+	}
 	
-	public void startGame() {
-		gameState.setState(StateEnum.RUNNING);		
+	public synchronized void joinGame(@NotNull Game game) {
+		Preconditions.checkNotNull(game);
+		gameState.addGame(game);		
 	}
-
-	public void finishGame() {
-		gameState.setState(StateEnum.FINISHED);
-	}
-
-	public void resetGame() {
-		gameState = new GameState();
-	}	
+	
 
     private void doWork(){
     	// check if game is running or not
@@ -67,6 +72,7 @@ public class GameEjb {
     	synchronized (this) {
 			gameState.processRecordings(recordings);
 			if (GameState.StateEnum.FINISHED_WITH_WINNER == gameState.getState())
+				// TODO not just print the result ?!?!?
 				System.out.println("we have a winner " + gameState.getWinner());
 		}
     }

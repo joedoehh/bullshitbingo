@@ -7,11 +7,7 @@ import com.joedoe.bullshitbingo.model.GameState;
 
 public interface GameUseCase {
 
-	void startGame();
-	
-	void finishGame();
-	
-	void resetGame();
+	void setGameLifcycleState(@NotNull GameState.StateEnum newState); 
 	
 	@NotNull
 	GameState getState();

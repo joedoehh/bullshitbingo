@@ -1,6 +1,8 @@
 package com.joedoe.bullshitbingo.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -23,11 +25,11 @@ public class Game {
 	@Size(min = 5, max = 5)
 	private List<MarkedWord> words;
 
-	public Game(@NotNull String player,			
+	public Game(@NotNull String player,
 			@NotNull @Size(min = 5, max = 5) List<String> words) {
 		this(player, 0, MarkedWord.fromWords(words));
-	}	
-	
+	}
+
 	public Game(@NotNull String player,
 			@NotNull @Min(0) @Max(5) Integer rating,
 			@NotNull @Size(min = 5, max = 5) List<MarkedWord> words) {
@@ -37,6 +39,7 @@ public class Game {
 		Preconditions.checkArgument(rating >= 0);
 		Preconditions.checkNotNull(player);
 		Preconditions.checkArgument(words.size() == 5);
+		Preconditions.checkArgument(checkWordsUnique(words), "words need to be unique "+words);
 		this.player = player;
 		this.rating = rating;
 		this.words = words;
@@ -50,8 +53,22 @@ public class Game {
 		return rating;
 	}
 
+	public void increaseRating() {
+		if (getRating() < 5)
+			rating++;
+	}
+
+	public boolean isWon() {
+		return getRating() == 5;
+	}
+
 	public List<MarkedWord> getWords() {
 		return words;
+	}
+	
+	private boolean checkWordsUnique(List<MarkedWord> words) {
+		Set<MarkedWord> asCollection = new HashSet<MarkedWord>(words);
+		return asCollection.size() == words.size();
 	}
 
 	@Override
