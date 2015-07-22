@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 public class GameState {
 
 	public enum StateEnum {
-		INITIALIZED, RUNNING, FINISHED_STOPPED, FINISHED_WITH_WINNER
+		INITIALIZED, RUNNING, STOPPED, FINISHED
 	}
 
 	@NotNull
@@ -45,7 +45,7 @@ public class GameState {
 	public void processRecordings(@NotNull List<RecordingBo> recordings) {
 		Preconditions.checkNotNull(state);
 		for (RecordingBo recording : recordings) {
-			if (StateEnum.FINISHED_WITH_WINNER == state)
+			if (StateEnum.FINISHED == state)
 				break;
 			processRecoding(recording);
 		}
@@ -63,7 +63,7 @@ public class GameState {
 				lastMatchedRecording.add(new MarkedWord(nextWord, true));
 				winner = evaluateWinners(matchingGames);
 				if (null != winner) {
-					state = StateEnum.FINISHED_WITH_WINNER;
+					state = StateEnum.FINISHED;
 					break;
 				}
 			} else {

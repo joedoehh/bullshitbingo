@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bullshitBingoApp', ['ngRoute'])
+angular.module('bullshitBingoApp', ['ngRoute', 'ngMessages'])
 
   .config(function($routeProvider) {
     $routeProvider
@@ -10,15 +10,17 @@ angular.module('bullshitBingoApp', ['ngRoute'])
   })
     
   
-  .controller('GameCtrl', function($http){
+  .controller('GameCtrl', function($http, $scope){
 	  
 	  var GAME_REST_SERVICE_BASE_URL = 'http://localhost:9080/bullshitbingo-server/bsb/game';	  
 	  var gameController = this;
 	  	  
 	  gameController.gameState = [];
 	  gameController.serverError = 1;
+	  gameController.userName;
+	  gameController.words;
 	  
-	  gameController.reload = function (recording) {	    
+	  gameController.reload = function () {	    
 	    	$http.get(GAME_REST_SERVICE_BASE_URL)
 	    	.success(
 	    			function(data) {
@@ -30,13 +32,54 @@ angular.module('bullshitBingoApp', ['ngRoute'])
 	    				gameController.gameState = [];
 	    				gameController.serverError = 1;
 	    			})};
-	    
+	    			
+	  gameController.join = function () {	
+		  $http.post(GAME_REST_SERVICE_BASE_URL+"?player="+gameController.userName+"&wordsCommaSeperated="+gameController.words)
+		  .success(
+				  function(data) {
+					  gameController.reload();
+				  })
+	      .error(
+	    		  function(data, status) {
+	    			  gameController.gameState = [];
+	    			  gameController.serverError = 1;
+	    		  })};
+	    		  
+	   gameController.start = function () {	
+		   $http.put(GAME_REST_SERVICE_BASE_URL+"/RUNNING")
+	    	 .success(
+	    		  function(data) {
+	    			  gameController.reload();
+	    		  })
+	    	 .error(
+	    	 	  function(data, status) {
+	    	 		  gameController.gameState = [];
+	    		   	  gameController.serverError = 1;
+	    		  })};	 
+
+	    gameController.reset = function () {	
+	    	$http.put(GAME_REST_SERVICE_BASE_URL+"/INITIALIZED")
+	    		 .success(
+	    		 	function(data) {
+	    		 		gameController.reload();
+	    		    })
+	    		  .error(
+	    			function(data, status) {
+	    				gameController.gameState = [];
+	    				gameController.serverError = 1;
+	    		    })};	 
+	    		  
+	    		  
+	   gameController.fieldIsInvalid = function (field) {
+		   return $scope.gameForm[field].$touched
+		   			&& $scope.gameForm[field].$invalid;};
+		   			
 	  gameController.reload();			
 	  	 
   })  
   
   .controller('RecordingsCtrl', function($http){
-	  
+
 	  var RECORDINGS_REST_SERVICE_BASE_URL = 'http://localhost:9080/bullshitbingo-server/bsb/recording';	  
 	  var recordingsController = this;
 	  

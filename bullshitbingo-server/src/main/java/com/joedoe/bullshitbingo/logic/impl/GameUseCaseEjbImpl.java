@@ -16,25 +16,33 @@ public class GameUseCaseEjbImpl implements GameUseCase {
 
 	@EJB
 	private RecorderDao recorderDao;
-	
+
 	@EJB
 	private GameEjb gameStateEjb;
-	
+
 	@Override
 	public void setGameLifcycleState(@NotNull StateEnum newState) {
 		Preconditions.checkNotNull(newState);
 		gameStateEjb.setGameLifcycleState(newState);
-	}	
-	
+	}
+
 	@Override
 	public GameState getState() {
-		return gameStateEjb.getState();
+		return gameStateEjb.getGameState();
 	}
 
 	@Override
 	public void joinGame(@NotNull Game game) {
 		Preconditions.checkNotNull(game);
-		gameStateEjb.joinGame(game);		
+		boolean gameIsInitialized = gameStateEjb.getState().equals(GameState.StateEnum.INITIALIZED); 
+		boolean gameIsRunning = gameStateEjb.getState().equals(GameState.StateEnum.RUNNING);
+		Preconditions.checkState(gameIsInitialized || gameIsRunning,
+				"to join a game it must be in state "
+						+ GameState.StateEnum.INITIALIZED + " or "
+						+ GameState.StateEnum.RUNNING
+						+ " but current state is "
+						+ gameStateEjb.getState());
+		gameStateEjb.joinGame(game);
 	}
 
 }

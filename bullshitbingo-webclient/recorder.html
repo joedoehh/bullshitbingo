@@ -11,6 +11,6 @@
     		<td>{{recording.wordsAsString}}</td>
     		<td><a href class="btn btn-default btn-sm" ng-click="recordingsController.deleteRecording(recording)">Delete</a></td>
   		</tr>
-  		<div class="alert alert-danger" role="alert" ng-show="recordingsController.serverError">Could not connect to server, check it is running and available</div>
+  		<div class="alert alert-danger" role="alert" ng-show="recordingsController.serverError">Error connecting to server</div>
 	</table>
 </div>

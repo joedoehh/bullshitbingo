@@ -1,44 +1,76 @@
 <div ng-controller="GameCtrl as gameController">
 
 	<div class="jumbotron">
-	  <h3>Game State: {{gameController.gameState.state}}</h3>
-	  <p>the <span class="label label-warning">group</span> is in good <span class="label label-warning">shape</span> all kpis have been met</p>
-	  <p>
-	  <input type="text" placeholder="User">
-	  <input type="text" placeholder="Buzzwords">
-	  <a class="btn btn-primary btn-default" role="button">Join Game</a>
-	  <a class="btn btn-primary btn-default" role="button">Start Game</a>
-	  <a class="btn btn-primary btn-default" role="button">Finish Game</a>
-	  <a class="btn btn-primary btn-default" role="button">Reset Game</a>
-	  </p>
-	 </div> 
+		<h3 ng-show="gameController.gameState.state == 'INITIALIZED'">Game not started yet ...</h3>
+		<h3 ng-show="gameController.gameState.state == 'RUNNING'">Game in progress ...</h3>
+		<h3 ng-show="gameController.gameState.state == 'STOPPED'">>Game stopped</h3>
+		<h3 ng-show="gameController.gameState.state == 'FINISHED'">Game finished, we have a winner!</h3>
+		
+		<p>
+			<span ng-repeat="word in gameController.gameState.lastRecording"> 
+				<span ng-show="word.marked == false">{{word.word}}</span>
+				<span class="label label-warning" ng-show="word.marked == true">{{word.word}}</span>
+			</span>		
+		</p>
+		
+		<p>
+			<form name="gameForm" class="form-group has-error" ng-show="((gameController.gameState.state == 'INITIALIZED') || (gameController.gameState.state == 'RUNNING'))" >
+				<label class="control-label" for="user" ng-if="gameController.fieldIsInvalid('user')" ng-messages="gameForm.user.$error" >
+					<span ng-message="required"><small>Username required!</small></span>
+				</label>
+				<input size="20" id="user" name="user" type="text" placeholder="User" ng-model="gameController.userName" 
+					ng-required="true"> 
+
+				<label class="control-label" for="buzzwords" ng-if="gameController.fieldIsInvalid('buzzwords')" ng-messages="gameForm.buzzwords.$error" >
+					<span ng-message="required"><small>Buzzwords required!</small></span>
+					<span ng-message="pattern"><small>exactly five buzzwords required (seperated by space)</small></span>
+				</label>					
+				<input size= "60" id="buzzwords" name="buzzwords" type="text" placeholder="Buzzwords" ng-model="gameController.words"
+					ng-required="true"
+					ng-pattern="/^[A-Z,a-z,\u00C0-\u02B0]+,[A-Z,a-z,\u00C0-\u02B0]+,[A-Z,a-z,\u00C0-\u02B0]+,[A-Z,a-z,\u00C0-\u02B0]+,[A-Z,a-z,\u00C0-\u02B0]+$/">
+
+				<a class="btn btn-primary btn-default" role="button"
+					ng-click="gameController.join()"					
+					ng-disabled="!gameForm.$valid">Join Game</a> 	
+		   </form> 
+		</p>
+		
+		<p>
+			<a class="btn btn-primary btn-default" role="button"
+				ng-show="gameController.gameState.state == 'INITIALIZED'"
+				ng-click="gameController.start()">Start Game</a> 
+			<a class="btn btn-primary btn-default" role="button"
+				ng-show="gameController.gameState.state == 'RUNNING'">Stop Game</a> 
+			<a class="btn btn-primary btn-default" role="button"
+				ng-show="gameController.gameState.state == 'STOPPED'">Continue Game</a> 
+			<a class="btn btn-primary btn-default" role="button"
+				ng-hide="gameController.gameState.state == 'INITIALIZED'"
+				ng-click="gameController.reset()">Reset Game</a> 		
+		</p>
+
+	</div>
 	
-	<div class="row">
-	  	<div ng-repeat="game in gameController.gameState.games">
-	  		<div class="col-sm-4 col-md-4">
-				<div class="thumbnail">
-					<div class="caption">						  	
-						<h4>
-							{{game.player}}
-							<div ng-repeat="i in game.hits">
-								<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-							</div>
-							<div ng-repeat="i in game.misses">
-								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-							</div>
-						</h4>
-						<div ng-repeat="word in game.words">
-							<span class="label label-info">{{word.word}}</span>
-							<!-- 
-							<span class="label label-warning">{{word.word}}</span>
-							 -->						
-						</div>
-						
-					</div>
-				</div>
-			</div>
-	  	</div>	
-  	</div>	
+	<div class="alert alert-danger" role="alert" ng-show="gameController.serverError">Error connecting to server</div>
+
+	
+	<table class="table">
+		<tr ng-repeat="game in gameController.gameState.games">
+			<td><h4>{{game.player}}</h4></td>
+			<td>
+				<span ng-repeat="word in game.words"> 
+					<span ng-show="word.marked == false">{{word.word}}</span>
+					<span class="label label-warning" ng-show="word.marked == true">{{word.word}}</span>
+				</span>
+			</td>
+			<td>
+				<span class="glyphicon glyphicon-star" aria-hidden="true" ng-repeat="i in game.hits"></span>
+				<span class="glyphicon glyphicon-star-empty" aria-hidden="true" ng-repeat="i in game.misses"></span>
+			</td>	
+		</tr>
+		<div class="alert alert-danger" role="alert"
+			ng-show="gameController.gameState.winner">And the winner is
+			{{gameController.gameState.winner}}</div>
+	</table>
 
 </div>
 

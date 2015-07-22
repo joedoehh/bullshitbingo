@@ -60,7 +60,7 @@ public class GameStateTest {
 		List<RecordingBo> recordings = createRecordings(new String[] { "a",
 				"b" }, new String[] { "c", "d", "e" });
 		gameState.processRecordings(recordings);
-		assertThat(gameState.getState(), equalTo(StateEnum.FINISHED_WITH_WINNER));
+		assertThat(gameState.getState(), equalTo(StateEnum.FINISHED));
 		assertThat(gameState.getWinner(), equalTo("player-1"));
 	}
 
@@ -75,7 +75,7 @@ public class GameStateTest {
 		List<RecordingBo> recordings = createRecordings(new String[] { "a",
 				"b" }, new String[] { "c", "d", "e" });
 		gameState.processRecordings(recordings);
-		assertThat(gameState.getState(), equalTo(StateEnum.FINISHED_WITH_WINNER));
+		assertThat(gameState.getState(), equalTo(StateEnum.FINISHED));
 		assertThat(gameState.getWinner(), equalTo("player-1 player-2"));
 	}
 

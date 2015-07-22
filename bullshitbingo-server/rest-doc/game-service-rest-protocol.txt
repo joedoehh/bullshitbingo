@@ -1,9 +1,20 @@
+join game
+PUT  http://localhost:9080/bullshitbingo-server/bsb/game?player=joedoe&word=x1&word=x2&word=x3&word=x4&word=x5
+POST http://localhost:9080/bullshitbingo-server/bsb/game?player=joedoe&wordsCommaSeperated=a,b,c,d,e
+
+start game
+PUT http://localhost:9080/bullshitbingo-server/bsb/game/RUNNING
+
+reset game
+PUT http://localhost:9080/bullshitbingo-server/bsb/game/INITIALIZED
+
+STOPPED, FINISHED
+
 get game status
 GET http://localhost:9080/bullshitbingo-server/bsb/game
 
 {
    "state": "INITIALIZED",
-   "lastMatchedRecording": [],
    "games": [
       {
          "words": [
@@ -30,7 +41,6 @@ GET http://localhost:9080/bullshitbingo-server/bsb/game
          ],
          "player": "joedoe",
          "won": false,
-         "rating": 0,
          "hits": [],
          "misses": [
             0,
@@ -38,10 +48,45 @@ GET http://localhost:9080/bullshitbingo-server/bsb/game
             2,
             3,
             4
-         ]
+         ],
+         "rating": 0
+      },
+      {
+         "words": [
+            {
+               "marked": false,
+               "word": "xxxxxxx"
+            },
+            {
+               "marked": false,
+               "word": "xxxxx2"
+            },
+            {
+               "marked": false,
+               "word": "x3"
+            },
+            {
+               "marked": false,
+               "word": "xxxxxx4"
+            },
+            {
+               "marked": false,
+               "word": "x5"
+            }
+         ],
+         "player": "joedoe2",
+         "won": false,
+         "hits": [],
+         "misses": [
+            0,
+            1,
+            2,
+            3,
+            4
+         ],
+         "rating": 0
       }
-   ]
+   ],
+   "lastMatchedRecording": []
 }
 
-join game
-PUT http://localhost:9080/bullshitbingo-server/bsb/game?player=joedoe&word=x1&word=x2&word=x3&word=x4&word=x5

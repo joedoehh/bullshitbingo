@@ -23,8 +23,6 @@ import com.joedoe.bullshitbingo.persistence.api.RecorderDao;
 @Singleton
 public class GameEjb {
 	
-	// TODO lifecycle of mgame and reaction on timer (starting / stopping) 
-
 	private static final int TIMEOUT_REPEAT_GAME = 5*1000;
 
 	private static final int TIMEOUT_BEFORE_START_OF_GAME_MS = 1000;
@@ -38,16 +36,20 @@ public class GameEjb {
 	@EJB
 	private RecorderDao recorderDao; 
 	
-	public synchronized GameState getState() {
+	public synchronized GameState getGameState() {
 		return gameState;
+	}
+
+	public synchronized GameState.StateEnum getState() {
+		return gameState.getState();
 	}
 	
 	public void setGameLifcycleState(@NotNull GameState.StateEnum newState) {
 		Preconditions.checkNotNull(newState);
 		if (GameState.StateEnum.RUNNING == newState) {
 			gameState.setState(StateEnum.RUNNING);	
-		} else if (GameState.StateEnum.FINISHED_STOPPED == newState) {
-			gameState.setState(StateEnum.FINISHED_STOPPED);
+		} else if (GameState.StateEnum.STOPPED == newState) {
+			gameState.setState(StateEnum.STOPPED);
 		} else if (GameState.StateEnum.INITIALIZED == newState) {
 			gameState = new GameState();
 		} else {
@@ -73,7 +75,7 @@ public class GameEjb {
     	// play the game
     	synchronized (this) {
 			gameState.processRecordings(recordings);
-			if (GameState.StateEnum.FINISHED_WITH_WINNER == gameState.getState())
+			if (GameState.StateEnum.FINISHED == gameState.getState())
 				// TODO not just print the result ?!?!?
 				System.out.println("we have a winner " + gameState.getWinner());
 		}

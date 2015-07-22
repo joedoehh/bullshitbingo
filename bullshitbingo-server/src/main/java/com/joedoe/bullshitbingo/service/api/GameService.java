@@ -17,4 +17,6 @@ public interface GameService {
 	void joinGame(@NotNull String player,
 			@NotNull @Size(min = 5, max = 5) List<String> words);
 
+	void joinGame(@NotNull String player, @NotNull String wordsSeperatedByComma);
+
 }
