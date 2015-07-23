@@ -24,7 +24,7 @@ import com.google.common.base.Preconditions;
 @Table(name = "RECORDINGS")
 @NamedQueries(value = {
 		@NamedQuery(name = "listRecordings", query = "SELECT r FROM RecordingBo r ORDER BY r.timestampOfRecording"),
-		@NamedQuery(name = "listRecordingsAfterRecordingTimestamp", query = "SELECT r FROM RecordingBo r WHERE r.timestampOfRecording < :timestampOfRecording ORDER BY r.timestampOfRecording"),
+		@NamedQuery(name = "listRecordingsAfterRecordingTimestamp", query = "SELECT r FROM RecordingBo r WHERE r.timestampOfRecording > :timestampOfRecording ORDER BY r.timestampOfRecording"),
 		@NamedQuery(name = "deleteRecordings", query = "DELETE FROM RecordingBo"),
 		@NamedQuery(name = "deleteRecordingById", query = "DELETE FROM RecordingBo r WHERE r.id =:id")})
 public class RecordingBo {

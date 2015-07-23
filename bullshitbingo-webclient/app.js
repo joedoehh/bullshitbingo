@@ -10,7 +10,7 @@ angular.module('bullshitBingoApp', ['ngRoute', 'ngMessages'])
   })
     
   
-  .controller('GameCtrl', function($http, $scope){
+  .controller('GameCtrl', function($http, $scope, $timeout){
 	  
 	  var GAME_REST_SERVICE_BASE_URL = 'http://localhost:9080/bullshitbingo-server/bsb/game';	  
 	  var gameController = this;
@@ -19,6 +19,16 @@ angular.module('bullshitBingoApp', ['ngRoute', 'ngMessages'])
 	  gameController.serverError = 1;
 	  gameController.userName;
 	  gameController.words;
+	  gameController.lastUpdateTimestamp;
+	  gameController.automaticReloadFlag;
+	  
+	  gameController.automaticReload = function () {
+		  if (gameController.automaticReloadFlag == true) {
+			  $timeout(gameController.reload(), 5000);			  
+		  } else {
+			  $timeout.cancel();
+		  }		  	
+	  };
 	  
 	  gameController.reload = function () {	    
 	    	$http.get(GAME_REST_SERVICE_BASE_URL)
@@ -26,12 +36,15 @@ angular.module('bullshitBingoApp', ['ngRoute', 'ngMessages'])
 	    			function(data) {
 	    				gameController.gameState = data;
 	    				gameController.serverError = 0;
+	    				gameController.lastUpdateTimestamp = new Date();	    				
 	    			})
 	    	.error(
 	    			function(data, status) {
 	    				gameController.gameState = [];
 	    				gameController.serverError = 1;
-	    			})};
+	    			});
+	    	 };
+	    			
 	    			
 	  gameController.join = function () {	
 		  $http.post(GAME_REST_SERVICE_BASE_URL+"?player="+gameController.userName+"&wordsCommaSeperated="+gameController.words)
@@ -45,8 +58,8 @@ angular.module('bullshitBingoApp', ['ngRoute', 'ngMessages'])
 	    			  gameController.serverError = 1;
 	    		  })};
 	    		  
-	   gameController.start = function () {	
-		   $http.put(GAME_REST_SERVICE_BASE_URL+"/RUNNING")
+	   gameController.changeState = function (newState) {	
+		   $http.put(GAME_REST_SERVICE_BASE_URL+"/"+newState)
 	    	 .success(
 	    		  function(data) {
 	    			  gameController.reload();
@@ -56,20 +69,7 @@ angular.module('bullshitBingoApp', ['ngRoute', 'ngMessages'])
 	    	 		  gameController.gameState = [];
 	    		   	  gameController.serverError = 1;
 	    		  })};	 
-
-	    gameController.reset = function () {	
-	    	$http.put(GAME_REST_SERVICE_BASE_URL+"/INITIALIZED")
-	    		 .success(
-	    		 	function(data) {
-	    		 		gameController.reload();
-	    		    })
-	    		  .error(
-	    			function(data, status) {
-	    				gameController.gameState = [];
-	    				gameController.serverError = 1;
-	    		    })};	 
-	    		  
-	    		  
+	    		 	    		  
 	   gameController.fieldIsInvalid = function (field) {
 		   return $scope.gameForm[field].$touched
 		   			&& $scope.gameForm[field].$invalid;};

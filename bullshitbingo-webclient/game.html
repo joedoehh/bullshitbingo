@@ -3,18 +3,11 @@
 	<div class="jumbotron">
 		<h3 ng-show="gameController.gameState.state == 'INITIALIZED'">Game not started yet ...</h3>
 		<h3 ng-show="gameController.gameState.state == 'RUNNING'">Game in progress ...</h3>
-		<h3 ng-show="gameController.gameState.state == 'STOPPED'">>Game stopped</h3>
+		<h3 ng-show="gameController.gameState.state == 'STOPPED'">Game stopped</h3>
 		<h3 ng-show="gameController.gameState.state == 'FINISHED'">Game finished, we have a winner!</h3>
-		
+				
 		<p>
-			<span ng-repeat="word in gameController.gameState.lastRecording"> 
-				<span ng-show="word.marked == false">{{word.word}}</span>
-				<span class="label label-warning" ng-show="word.marked == true">{{word.word}}</span>
-			</span>		
-		</p>
-		
-		<p>
-			<form name="gameForm" class="form-group has-error" ng-show="((gameController.gameState.state == 'INITIALIZED') || (gameController.gameState.state == 'RUNNING'))" >
+			<form name="gameForm" class="form-group has-error">
 				<label class="control-label" for="user" ng-if="gameController.fieldIsInvalid('user')" ng-messages="gameForm.user.$error" >
 					<span ng-message="required"><small>Username required!</small></span>
 				</label>
@@ -25,9 +18,9 @@
 					<span ng-message="required"><small>Buzzwords required!</small></span>
 					<span ng-message="pattern"><small>exactly five buzzwords required (seperated by space)</small></span>
 				</label>					
-				<input size= "60" id="buzzwords" name="buzzwords" type="text" placeholder="Buzzwords" ng-model="gameController.words"
+				<input size= "60" id="buzzwords" name="buzzwords" type="text" placeholder="enter buzzwords seperated by comma" ng-model="gameController.words"
 					ng-required="true"
-					ng-pattern="/^[A-Z,a-z,\u00C0-\u02B0]+,[A-Z,a-z,\u00C0-\u02B0]+,[A-Z,a-z,\u00C0-\u02B0]+,[A-Z,a-z,\u00C0-\u02B0]+,[A-Z,a-z,\u00C0-\u02B0]+$/">
+					ng-pattern="/^[A-Za-z\u00C0-\u02B0]+,[A-Za-z\u00C0-\u02B0]+,[A-Za-z\u00C0-\u02B0]+,[A-Za-z\u00C0-\u02B0]+,[A-Za-z\u00C0-\u02B0]+$/">
 
 				<a class="btn btn-primary btn-default" role="button"
 					ng-click="gameController.join()"					
@@ -38,14 +31,19 @@
 		<p>
 			<a class="btn btn-primary btn-default" role="button"
 				ng-show="gameController.gameState.state == 'INITIALIZED'"
-				ng-click="gameController.start()">Start Game</a> 
+				ng-click="gameController.changeState('RUNNING')">Start Game</a> 
+				
 			<a class="btn btn-primary btn-default" role="button"
-				ng-show="gameController.gameState.state == 'RUNNING'">Stop Game</a> 
+				ng-show="gameController.gameState.state == 'RUNNING'"
+				ng-click="gameController.changeState('STOPPED')">Stop Game</a>
+				 
 			<a class="btn btn-primary btn-default" role="button"
-				ng-show="gameController.gameState.state == 'STOPPED'">Continue Game</a> 
+				ng-show="gameController.gameState.state == 'STOPPED'"
+				ng-click="gameController.changeState('RUNNING')">Continue Game</a>
+				 
 			<a class="btn btn-primary btn-default" role="button"
 				ng-hide="gameController.gameState.state == 'INITIALIZED'"
-				ng-click="gameController.reset()">Reset Game</a> 		
+				ng-click="gameController.changeState('INITIALIZED')">Reset Game</a> 		
 		</p>
 
 	</div>
@@ -71,6 +69,23 @@
 			ng-show="gameController.gameState.winner">And the winner is
 			{{gameController.gameState.winner}}</div>
 	</table>
+
+	<p>	
+		<h4><b>Last matched recording:</b>		
+		<span ng-repeat="word in gameController.gameState.lastMatchedRecording"> 
+			<span ng-show="word.marked == false">{{word.word}}</span>
+			<span class="label label-warning" ng-show="word.marked == true">{{word.word}}</span>
+		</span></h4>
+		<div><h4>
+			<b>Last updated at:</b> {{gameController.lastUpdateTimestamp}} 			
+		</h4></div>
+		<div>
+			<label>
+				<input type="checkbox" 
+					ng-model="gameController.automaticReloadFlag" ng-change="gameController.automaticReload()">Automatic reload
+			</label>
+		</div>		
+	</p>
 
 </div>
 

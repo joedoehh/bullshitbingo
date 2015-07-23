@@ -65,15 +65,23 @@ public class GameEjb {
 
     private void doWork(){
     	// check if game is running or not
-    	if (GameState.StateEnum.RUNNING != gameState.getState()) return;
+    	if (GameState.StateEnum.RUNNING != gameState.getState()) {
+    		log("game state is not " + GameState.StateEnum.RUNNING + ", nothing to do");
+    		return;
+    	}
     	
         // fetch recordings to process
+		log("looking for recordings after " + lastRecordingTimestamp);
     	List<RecordingBo> recordings = recorderDao.findAfterTimestamp(lastRecordingTimestamp);
     	lastRecordingTimestamp = calculateNextTimestamp(recordings);
-    	if (recordings.size() == 0) return;
+    	if (recordings.size() == 0) {
+    		log("found no new recordings");
+    		return;
+    	}
     	
     	// play the game
     	synchronized (this) {
+    		log("processing recordings " + recordings);
 			gameState.processRecordings(recordings);
 			if (GameState.StateEnum.FINISHED == gameState.getState())
 				// TODO not just print the result ?!?!?
@@ -107,6 +115,10 @@ public class GameEjb {
 	private void stopTimer() {
 		timer.cancel();
 		timer = null;
+	}
+	
+	private void log(String text) {
+		System.out.println(new Date() + " : " + text);
 	}
 
 }

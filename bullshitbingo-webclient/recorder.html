@@ -1,9 +1,18 @@
 <div ng-controller="RecordingsCtrl as recordingsController">
 	<div class="jumbotron">
   		<h4>Recording Database</h4>
-		<input type="text" ng-model="recordingsController.newRecording">
-		<a href class="btn btn-default btn-sm" ng-click="recordingsController.addRecording()">Add</a>
-		<a href class="btn btn-default btn-sm" ng-click="recordingsController.deleteAll()">Delete All</a>
+  		<form name="text" class="form-group has-error">
+  			<label class="control-label" for="words"  ng-messages="text.words.$error" >
+				<span ng-message="required"><small>words required</small></span>
+			</label>
+			<input size= "60" id="words" name="words" type="text" placeholder="enter words seperated by space"
+				ng-model="recordingsController.newRecording">
+			<a class="btn btn-primary btn-default" role="button" 
+				ng-click="recordingsController.addRecording()"
+				ng-enabled="words.$valid">Add</a>
+			<a class="btn btn-primary btn-default" role="button" 
+				ng-click="recordingsController.deleteAll()">Delete All</a>
+		</form>				
 	</div> 
 	<table class="table">
   		<tr ng-repeat="recording in recordingsController.recordings">
