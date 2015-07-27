@@ -12,7 +12,8 @@ angular.module('bullshitBingoApp', ['ngRoute', 'ngMessages'])
   
   .controller('GameCtrl', function($http, $scope, $timeout){
 	  
-	  var GAME_REST_SERVICE_BASE_URL = 'http://localhost:9080/bullshitbingo-server/bsb/game';	  
+	  // var GAME_REST_SERVICE_BASE_URL = 'http://localhost:9080/bullshitbingo-server/bsb/game';	  
+	  var GAME_REST_SERVICE_BASE_URL = 'http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/game';
 	  var gameController = this;
 	  	  
 	  gameController.gameState = [];
@@ -80,7 +81,8 @@ angular.module('bullshitBingoApp', ['ngRoute', 'ngMessages'])
   
   .controller('RecordingsCtrl', function($http){
 
-	  var RECORDINGS_REST_SERVICE_BASE_URL = 'http://localhost:9080/bullshitbingo-server/bsb/recording';	  
+	  // var RECORDINGS_REST_SERVICE_BASE_URL = 'http://localhost:9080/bullshitbingo-server/bsb/recording';
+	  var RECORDINGS_REST_SERVICE_BASE_URL = 'http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/recording';
 	  var recordingsController = this;
 	  
 	  recordingsController.recordings = [];

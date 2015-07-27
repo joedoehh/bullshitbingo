@@ -12,7 +12,9 @@ stop game
 PUT http://localhost:9080/bullshitbingo-server/bsb/game/STOPPED
 
 get game status
-GET http://localhost:9080/bullshitbingo-server/bsb/game
+GET 
+http://localhost:9080/bullshitbingo-server/bsb/game
+http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/game
 {
    "state": "RUNNING",
    "lastMatchedRecording": [

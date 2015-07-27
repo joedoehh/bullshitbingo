@@ -1,6 +1,7 @@
 get recordings
-GET http://localhost:9080/bullshitbingo-server/bsb/recording
-
+GET 
+http://localhost:9080/bullshitbingo-server/bsb/recording
+http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/recording
 [
    {
       "id": 107,
@@ -37,4 +38,6 @@ GET http://localhost:9080/bullshitbingo-server/bsb/recording
 ]
 
 create recoding
-PUT http://localhost:9080/bullshitbingo-server/bsb/recording?word=alles&word=hat&word=ein&word=ende
+PUT 
+http://localhost:9080/bullshitbingo-server/bsb/recording?word=alles&word=hat&word=ein&word=ende
+http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/recording?word=alles&word=hat&word=ein&word=ende

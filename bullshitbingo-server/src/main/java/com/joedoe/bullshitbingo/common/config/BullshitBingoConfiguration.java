@@ -55,14 +55,17 @@ public class BullshitBingoConfiguration {
 
 	private static String getConfig(String envName, String filename)
 			throws Exception {
+		System.out.println("getConfig(): looking up " + envName + " in " + filename);
 		// 1. read from environment
-		String returnValue = System.getenv(VCAP_SERVICES_ENV_KEY);
+		String returnValue = System.getenv(envName);
 		if (null == returnValue) {
+			System.out.println("not found in environment, looking in filesystem");
 			// 2. read from path
 			Path path = FileSystems.getDefault().getPath(filename);
 			try {
 				returnValue = new String(Files.readAllBytes(path));	
 			} catch (NoSuchFileException nsfe) {
+				System.out.println("not found in path, looking in classpath");
 				// 3. read file from classpath
 				InputStream inputStream = BullshitBingoConfiguration.class.getClassLoader()
                         .getResourceAsStream(filename);
@@ -72,6 +75,7 @@ public class BullshitBingoConfiguration {
 		}
 		Preconditions.checkNotNull("not found conf in env with key " + envName
 				+ " or as file " + filename + " in default file system or from class loader", returnValue);
+		System.out.println("getConfig(): returnValue=" + returnValue);
 		return returnValue;
 	}
 
