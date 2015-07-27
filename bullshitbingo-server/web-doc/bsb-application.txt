@@ -1,1 +1,2 @@
+http://localhost:9080/bullshitbingo-server/#/
 http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/#/

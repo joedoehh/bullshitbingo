@@ -1,15 +1,26 @@
 join game
-PUT  http://localhost:9080/bullshitbingo-server/bsb/game?player=joedoe&word=x1&word=x2&word=x3&word=x4&word=x5
-POST http://localhost:9080/bullshitbingo-server/bsb/game?player=joedoe&wordsCommaSeperated=a,b,c,d,e
+PUT  
+http://localhost:9080/bullshitbingo-server/bsb/game?player=joedoe&word=x1&word=x2&word=x3&word=x4&word=x5
+http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/game?player=joedoe&word=x1&word=x2&word=x3&word=x4&word=x5
+
+POST 
+http://localhost:9080/bullshitbingo-server/bsb/game?player=joedoe&wordsCommaSeperated=a,b,c,d,e
+http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/game?player=joedoe&wordsCommaSeperated=a,b,c,d,e
 
 (re-)start game
-PUT http://localhost:9080/bullshitbingo-server/bsb/game/RUNNING
+PUT 
+http://localhost:9080/bullshitbingo-server/bsb/game/RUNNING
+http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/game/RUNNING
 
 reset game
-PUT http://localhost:9080/bullshitbingo-server/bsb/game/INITIALIZED
+PUT 
+http://localhost:9080/bullshitbingo-server/bsb/game/INITIALIZED
+http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/game/INITIALIZED
 
 stop game
-PUT http://localhost:9080/bullshitbingo-server/bsb/game/STOPPED
+PUT 
+http://localhost:9080/bullshitbingo-server/bsb/game/STOPPED
+http://bsb.eu-gb.mybluemix.net/bullshitbingo-server/bsb/STOPPED
 
 get game status
 GET 
