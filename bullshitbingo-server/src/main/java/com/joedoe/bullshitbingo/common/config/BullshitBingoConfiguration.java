@@ -34,6 +34,33 @@ public class BullshitBingoConfiguration {
 		initialize();
 		return (String) vcapAppConfig.get("recorderUsecaseBeanName");
 	}
+
+	public static IotMqttConfiguration getIotMqttConfiguration() {
+		initialize();
+		IotMqttConfiguration returnValue = new IotMqttConfiguration();
+		Object o = vcapServices.get("iotf-service");
+		System.out.println("iotf-service="+o);
+		return returnValue;
+	}
+	
+//	   "iotf-service": [
+//	                    {
+//	                       "name": "bullshitbingo-iot",
+//	                       "label": "iotf-service",
+//	                       "plan": "iotf-service-free",
+//	                       "credentials": {
+//	                          "iotCredentialsIdentifier": "a2g6k39sl6r5",
+//	                          "mqtt_host": "y5kewl.messaging.internetofthings.ibmcloud.com",
+//	                          "mqtt_u_port": 1883,
+//	                          "mqtt_s_port": 8883,
+//	                          "base_uri": "https://y5kewl.internetofthings.ibmcloud.com:443/api/v0001",
+//	                          "http_host": "y5kewl.internetofthings.ibmcloud.com",
+//	                          "org": "y5kewl",
+//	                          "apiKey": "a-y5kewl-7pvzji5miq",
+//	                          "apiToken": "tljpyA?oj?Hmx7L)7m"
+//	                       }
+//	                    }
+//	                 ],	
 	
 	private static void initialize() {
 		if (initialized)

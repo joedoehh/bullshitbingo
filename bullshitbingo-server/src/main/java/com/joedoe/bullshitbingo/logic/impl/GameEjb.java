@@ -13,6 +13,8 @@ import javax.ejb.Startup;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Preconditions;
+import com.joedoe.bullshitbingo.common.config.BullshitBingoConfiguration;
+import com.joedoe.bullshitbingo.common.config.IotMqttConfiguration;
 import com.joedoe.bullshitbingo.model.Game;
 import com.joedoe.bullshitbingo.model.GameState;
 import com.joedoe.bullshitbingo.model.GameState.StateEnum;
@@ -85,6 +87,7 @@ public class GameEjb {
 			gameState.processRecordings(recordings);
 			if (GameState.StateEnum.FINISHED == gameState.getState())
 				// TODO not just print the result ?!?!?
+				BullshitBingoConfiguration.getIotMqttConfiguration();
 				System.out.println("we have a winner " + gameState.getWinner());
 		}
     }

@@ -37,7 +37,7 @@ public class RecordingBo {
 	@CollectionTable(name = "RECORDED_WORDS", joinColumns = @JoinColumn(name = "RECORDING_ID"))
 	@Column(name = "WORD")
 	@NotNull
-	private List<String> words;
+	private List<String> words = new ArrayList<String>();
 
 	@Basic(optional = false)
 	@NotNull
