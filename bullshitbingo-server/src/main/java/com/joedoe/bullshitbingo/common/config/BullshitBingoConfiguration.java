@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -38,10 +39,19 @@ public class BullshitBingoConfiguration {
 	public static IotMqttConfiguration getIotMqttConfiguration() {
 		initialize();
 		IotMqttConfiguration returnValue = new IotMqttConfiguration();
-		Object o = vcapServices.get("iotf-service");
-		System.out.println("iotf-service="+o);
+		JSONArray array = (JSONArray) vcapServices.get("iotf-service");
+		JSONObject iotfConfigObject = (JSONObject) array.get(0);
+//		returnValue.authmethod = "";
 		return returnValue;
 	}
+	
+	
+//	String org = props.getProperty("org");
+//	String id = props.getProperty("id");
+//	String authmethod = props.getProperty("key");
+//	String authtoken = props.getProperty("token");
+//	String sslStr = props.getProperty("isSSL");
+//	boolean isSSL = sslStr.equalsIgnoreCase("true");	
 	
 //	   "iotf-service": [
 //	                    {

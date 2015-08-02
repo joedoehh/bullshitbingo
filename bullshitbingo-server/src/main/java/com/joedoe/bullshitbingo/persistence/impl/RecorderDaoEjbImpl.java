@@ -23,9 +23,10 @@ public class RecorderDaoEjbImpl implements RecorderDao {
 
 	@Override
 	public @NotNull List<RecordingBo> findAll() {
-		return em
+		List<RecordingBo> returnValue = em
 				.createNamedQuery("listRecordings", RecordingBo.class)
 				.getResultList();
+		return returnValue;
 	}
 
 	@Override
