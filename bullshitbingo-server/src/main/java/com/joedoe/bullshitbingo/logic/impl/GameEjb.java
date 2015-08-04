@@ -13,8 +13,6 @@ import javax.ejb.Startup;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Preconditions;
-import com.joedoe.bullshitbingo.common.config.BullshitBingoConfiguration;
-import com.joedoe.bullshitbingo.common.config.IotMqttConfiguration;
 import com.joedoe.bullshitbingo.model.Game;
 import com.joedoe.bullshitbingo.model.GameState;
 import com.joedoe.bullshitbingo.model.GameState.StateEnum;
@@ -37,6 +35,9 @@ public class GameEjb {
 	
 	@EJB
 	private RecorderDao recorderDao; 
+	
+	@EJB
+	private IotNotificationEjb iotNotificationEjb;
 	
 	public synchronized GameState getGameState() {
 		return gameState;
@@ -85,10 +86,22 @@ public class GameEjb {
     	synchronized (this) {
     		log("processing recordings " + recordings);
 			gameState.processRecordings(recordings);
-			if (GameState.StateEnum.FINISHED == gameState.getState())
-				// TODO not just print the result ?!?!?
-				BullshitBingoConfiguration.getIotMqttConfiguration();
-				System.out.println("we have a winner " + gameState.getWinner());
+			if (GameState.StateEnum.FINISHED == gameState.getState()) {
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						iotNotificationEjb.doStartAlarm("Winner is " + gameState.getWinner());
+						try {
+							Thread.sleep(10*1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						iotNotificationEjb.doStopAlarm();
+					}
+					
+				}).start();
+			}
 		}
     }
 

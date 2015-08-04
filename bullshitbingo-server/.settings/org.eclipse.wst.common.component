@@ -5,6 +5,9 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp/WebContent"/>
         <wb-resource deploy-path="/WEB-INF" source-path="/src/main/webapp/WebContent/WEB-INF"/>
         <wb-resource deploy-path="/WEB-INF/classes/META-INF" source-path="/src/main/webapp/WebContent/META-INF"/>
+        <dependent-module archiveName="org.eclipse.paho.client.mqttv3-1.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/bullshitbingo-server/lib/org.eclipse.paho.client.mqttv3-1.0.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/bullshitbingo-server/target/classes"/>
         <property name="context-root" value="bullshitbingo-server"/>
     </wb-module>

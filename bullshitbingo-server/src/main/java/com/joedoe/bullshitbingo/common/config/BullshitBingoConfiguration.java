@@ -40,38 +40,16 @@ public class BullshitBingoConfiguration {
 		initialize();
 		IotMqttConfiguration returnValue = new IotMqttConfiguration();
 		JSONArray array = (JSONArray) vcapServices.get("iotf-service");
-		JSONObject iotfConfigObject = (JSONObject) array.get(0);
-//		returnValue.authmethod = "";
+		JSONObject iotfConfigObject = (JSONObject) ((JSONObject) array.get(0)).get("credentials");		
+		returnValue.org = (String) iotfConfigObject.get("org");
+		returnValue.apiKey = (String) iotfConfigObject.get("apiKey");
+		returnValue.authtoken = (String) iotfConfigObject.get("apiToken");
+		returnValue.httpHost = (String) iotfConfigObject.get("http_host");
+		System.out.println("iot config used " + returnValue);        	
 		return returnValue;
 	}
 	
-	
-//	String org = props.getProperty("org");
-//	String id = props.getProperty("id");
-//	String authmethod = props.getProperty("key");
-//	String authtoken = props.getProperty("token");
-//	String sslStr = props.getProperty("isSSL");
-//	boolean isSSL = sslStr.equalsIgnoreCase("true");	
-	
-//	   "iotf-service": [
-//	                    {
-//	                       "name": "bullshitbingo-iot",
-//	                       "label": "iotf-service",
-//	                       "plan": "iotf-service-free",
-//	                       "credentials": {
-//	                          "iotCredentialsIdentifier": "a2g6k39sl6r5",
-//	                          "mqtt_host": "y5kewl.messaging.internetofthings.ibmcloud.com",
-//	                          "mqtt_u_port": 1883,
-//	                          "mqtt_s_port": 8883,
-//	                          "base_uri": "https://y5kewl.internetofthings.ibmcloud.com:443/api/v0001",
-//	                          "http_host": "y5kewl.internetofthings.ibmcloud.com",
-//	                          "org": "y5kewl",
-//	                          "apiKey": "a-y5kewl-7pvzji5miq",
-//	                          "apiToken": "tljpyA?oj?Hmx7L)7m"
-//	                       }
-//	                    }
-//	                 ],	
-	
+		
 	private static void initialize() {
 		if (initialized)
 			return;
