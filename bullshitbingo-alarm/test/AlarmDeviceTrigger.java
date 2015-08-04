@@ -1,4 +1,4 @@
-package com.joedoe.bullshitbingo.alarmdevice;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
