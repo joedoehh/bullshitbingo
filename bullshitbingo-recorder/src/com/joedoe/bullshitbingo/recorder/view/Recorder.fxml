@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="510.0" prefWidth="602.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.joedoe.bullshitbingo.recorder.view.RecorderController">
+   <children>
+      <SplitPane layoutX="222.0" layoutY="100.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="700.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+            <VBox prefHeight="171.0" prefWidth="763.0" styleClass="background">
+               <children>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <ImageView fx:id="imageView" fitHeight="127.0" fitWidth="763.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+                  <TextArea fx:id="textArea" prefHeight="341.0" prefWidth="753.0" styleClass="text-field">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TextArea>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ButtonBar prefHeight="53.0" prefWidth="331.0" styleClass="background">
+                          <buttons>
+                              <Button fx:id="recordingButton" mnemonicParsing="false" onAction="#handleRecording" text="Start Recording" />
+                              <Button mnemonicParsing="false" onAction="#handleClear" text="Reset" />
+                          </buttons>
+                        </ButtonBar>
+                        <Slider fx:id="slider" min="10.0" max="100.0" value="20.0" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets top="20.0" />
+                           </padding>
+                        </Slider>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
