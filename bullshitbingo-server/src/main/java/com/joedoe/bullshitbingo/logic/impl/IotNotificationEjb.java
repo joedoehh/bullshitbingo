@@ -25,8 +25,10 @@ import com.joedoe.bullshitbingo.common.config.IotMqttConfiguration;
 public class IotNotificationEjb {
 
 	private final static String DEVICE_TYPE = "bsb-alarm";
+	private final static String DEVICE_ID = "bsb-alarm-001";
 	private final static String CMD_START_ALARM = "startalarm";
 	private final static String CMD_STOP_ALARM = "stopalarm";
+	private final static String IOT_BROKER_URL = "tcp://jubcru.messaging.internetofthings.ibmcloud.com:1883";
 
 	private MqttClient client = null;
 	private IotMqttConfiguration iotConfig;
@@ -47,7 +49,7 @@ public class IotNotificationEjb {
 		jsonObj.put("text", alarmText);
 		jsonObj.put("time",
 				new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-		String command = "iot-2/type/" + DEVICE_TYPE + "/id/+/cmd/"
+		String command = "iot-2/type/" + DEVICE_TYPE + "/id/" + DEVICE_ID + "/cmd/"
 				+ CMD_START_ALARM + "/fmt/json";
 		publish(command, jsonObj.toString(), false, 0);
 	}
@@ -61,15 +63,15 @@ public class IotNotificationEjb {
 		jsonObj.put("cmd", CMD_STOP_ALARM);
 		jsonObj.put("time",
 				new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-		String command = "iot-2/type/" + DEVICE_TYPE + "/id/+/cmd/"
+		String command = "iot-2/type/" + DEVICE_TYPE + "/id/" + DEVICE_ID + "/cmd/"
 				+ CMD_STOP_ALARM + "/fmt/json";
 		publish(command, jsonObj.toString(), false, 0);
 	}
 
-	@PostConstruct
+	// TODO joedoe activate when iot available
+	// @PostConstruct
 	private void connectToIot() throws RuntimeException {
-		if (!isMqttConnected()) {
-			String iotBrokerUrl = "tcp://" + iotConfig.httpHost + ":1883";
+		if (!isMqttConnected()) {			
 			String clientId = "a:" + iotConfig.org + ":" + iotConfig.apiKey;
 			if (client != null) {
 				try {
@@ -80,27 +82,27 @@ public class IotNotificationEjb {
 			}
 
 			try {
-				client = new MqttClient(iotBrokerUrl, clientId);
+				client = new MqttClient(IOT_BROKER_URL, clientId);
 				MqttConnectOptions options = new MqttConnectOptions();
 				options.setCleanSession(true);
 				options.setUserName(iotConfig.apiKey);
 				options.setPassword(iotConfig.authtoken.toCharArray());
 
-				log("Connecting to " + iotBrokerUrl + " with client id "
+				log("Connecting to " + IOT_BROKER_URL + " with client id "
 						+ clientId + ", username " + iotConfig.apiKey
 						+ " and password " + iotConfig.authtoken);
 				client.connect(options);
 				log("connection successfull");
 			} catch (MqttException e) {
-				throw new RuntimeException(e);
-			} finally {
 				client = null;
-			}
+				throw new RuntimeException(e);
+			} 
 		}
 
 	}
 
-	@PreDestroy
+	// TODO joedoe activate when iot available
+	// @PreDestroy
 	private void disconnectFromIot() throws RuntimeException {
 		if (isMqttConnected()) {
 			try {

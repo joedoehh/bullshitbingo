@@ -1,0 +1,10 @@
+---
+applications:
+- name: bullshitbingo-server
+  memory: 512M
+  host: bullshitbingo-server
+  domain: eu-gb.mybluemix.net
+  services:
+  - bsb-db
+  - bsb-monitoring
+  - bsb-iot

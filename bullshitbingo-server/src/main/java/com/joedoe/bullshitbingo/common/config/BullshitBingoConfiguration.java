@@ -44,7 +44,6 @@ public class BullshitBingoConfiguration {
 		returnValue.org = (String) iotfConfigObject.get("org");
 		returnValue.apiKey = (String) iotfConfigObject.get("apiKey");
 		returnValue.authtoken = (String) iotfConfigObject.get("apiToken");
-		returnValue.httpHost = (String) iotfConfigObject.get("http_host");
 		System.out.println("iot config used " + returnValue);        	
 		return returnValue;
 	}
@@ -90,7 +89,6 @@ public class BullshitBingoConfiguration {
 		}
 		Preconditions.checkNotNull("not found conf in env with key " + envName
 				+ " or as file " + filename + " in default file system or from class loader", returnValue);
-		System.out.println("getConfig(): returnValue=" + returnValue);
 		return returnValue;
 	}
 
